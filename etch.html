@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Etch-a-Sketch</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>Etch-a-Sketch</h1>
+    <div id="container"></div>
+    <button id="newBtn">New Grid</button>
+
+
+    <script>
+        const container = document.querySelector("#container");
+
+        function createGrid(size) {
+            let gridSize = size * size;
+            let check = true;
+            if (size > 60 || size % 1 != 0) {
+                check = false;
+            }
+
+            
+            if (check == true) {
+                let gridColumns = "repeat(" + size + ", 1fr)";
+                for (i = 0; i < gridSize; i++) {
+                    let cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    container.style.gridTemplateColumns = gridColumns;
+                    container.appendChild(cell);
+                }
+            }
+            if (check == false){
+                createGrid(16);
+                alert("The size must be a whole number smaller than 60.");
+            }
+        }
+
+        createGrid(16);
+
+        function styleCell() {
+            let cells = document.querySelectorAll(".cell");
+            cells.forEach(function (cell) {
+                cell.addEventListener("mouseover", () => {
+                    cell.style.backgroundColor = "grey";
+                });
+            });
+        }
+
+        styleCell()
+
+        const newBtn = document.querySelector('#newBtn');
+        newBtn.addEventListener("click", (e) => {
+            let newSize = prompt("Please enter how many cells you want on each side:", "");
+            const myNode = document.getElementById("container");
+            while (myNode.firstChild) {
+                myNode.removeChild(myNode.lastChild);
+            }
+            createGrid(newSize);
+            styleCell();
+        })
+
+
+    </script>
+</body>
+
+</html>
